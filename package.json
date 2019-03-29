@@ -1,0 +1,16 @@
+{
+  "name": "simple-chat",
+  "version": "2.0.0",
+  "dependencies": {
+    "cookie-parser": "^1.4.4",
+    "express": "^4.15.4",
+    "mysql": "^2.16.0",
+    "pug": "^2.0.3",
+    "socket.io": "^2.0.3",
+    "socket.io-cookie": "0.0.1",
+    "sqlstring": "^2.3.1"
+  },
+  "devDependencies": {
+    "standard": "^10.0.3"
+  }
+}

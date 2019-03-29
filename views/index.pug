@@ -1,0 +1,80 @@
+doctype html
+html
+  head
+    title Simple Chat Application by DublinGreen
+    link(rel='stylesheet', href='https://cdnjs.cloudflare.com/ajax/libs/bulma/0.5.2/css/bulma.css')
+    link(rel='stylesheet', href='css/main.css')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js')
+  body
+    #chat-app
+      #chat.has-text-centered
+        section.hero.is-success
+          .hero-body
+            .container
+              h1.title Socket.io Chat with private messing function, connecting to mysql database
+              h2 Chat Application with Node.js + socket.io developed for tizeti interview test
+        section.section.chat-container
+          .container
+            .columns
+              .box.column.is-8.is-offset-2
+                h2.title Chatbox
+                .chat-messages.has-text-left
+                  ul#chat-messages
+                form
+                  .field.has-addons
+                    p.control
+                      input(type='text', class='input', value='tizeti', id='name')
+                    p.control.is-expanded
+                      input(type='text', class='input', placeholder='Try to say something', id='message',autocomplete='off')
+                    p.control
+                      input(type='submit', class='button is-success', value='Post')
+        footer
+          .container
+            .content
+              p
+                | Developed by 
+                a(href='mailto:greendublin007@gmail.com') DublinGreen
+      script.
+        const socket = io();
+        $('form').submit(function() {
+          const name = $('#name').val();
+          const message = $('#message').val();
+
+          socket.emit('chatter', `${name} : ${message}`);
+          $('#message').val('');
+          return false; 
+        });
+
+        socket.on('chatter', function(message) {
+            var tempUsername = $('#name').val();
+            console.log("The name : " + $('#name').val());
+            console.log("Message : " + message);            
+                        
+            var findPrivateMark = message.indexOf("~");  
+            var findPrivateMark2 = message.indexOf("^"); 
+            var findPrivateMark3 = message.indexOf(":");             
+             
+ 
+            var toUsername = message.substring(findPrivateMark + 1,findPrivateMark2);
+            toUsername = toUsername.trim();
+            console.log("toUsername : " + toUsername);        
+            
+            var fromUsername = message.substring(findPrivateMark2 + 1,findPrivateMark3);
+            fromUsername = fromUsername.trim();
+            console.log("fromUsername : " + fromUsername);                        
+
+            var cleanPrivateMessage = message.substring(findPrivateMark2 + 1,message.length);
+            console.log("cleanPrivateMessage : " + cleanPrivateMessage); 
+            
+            if(findPrivateMark != -1){
+                if(tempUsername === toUsername){
+                    $('#chat-messages').append($('<li>').text(cleanPrivateMessage));
+                }else{
+                    $('#chat-messages').append($('<li>').text("Private Message"));
+                }
+            }else{
+                $('#chat-messages').append($('<li>').text(message));
+            }
+            
+        });
