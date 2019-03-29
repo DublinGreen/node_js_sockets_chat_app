@@ -29,7 +29,7 @@ dependencies: {
 -------------------
 node js entry script app.js
 
-to run, open the command line interface and naviagte to the project directory . Run the node command < node ./app.js >. The port is  5555
+to run, open the command line interface and navigate to the project directory . Run the node command < node ./app.js >. The port is  5555
 Visit on your browser http://127.0.0.1:5555/ or better http://localhost:5555/ to be safe. For those that change their default local IP. Una well done oh.
 
 The default username for a chat is tizeti. You can change it but i suggest small letters only. its easier for every body that way.
