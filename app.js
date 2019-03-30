@@ -4,7 +4,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const sqlString = require('sqlstring');
-//const mysql = require('mysql');
+const mysql = require('mysql');
 
 const APP_PORT = 5555;
 
@@ -17,9 +17,9 @@ const con = mysql.createConnection({
 });
 
 //Mysql connection test
-//con.connect(function(err) {
-//	console.log("Database Connected");
-//});
+con.connect(function(err) {
+	console.log("Database Connected");
+});
 
 const server = app.listen(APP_PORT, () => {
   console.log(`App running on port ${APP_PORT}`)
@@ -65,7 +65,7 @@ io.on('connection', (socket) => {
 		//add private messages to database
 		var insertRecords = "INSERT INTO messages (from_username,to_username,message) VALUES("+ cleanUserNameForSql + "," +  cleantoUserNameForSql +  "," + cleanPrivateUserMessageForSql + ");";	
 		console.log(insertRecords);
-		/*
+		
 		con.query(insertRecords, function (err, result) {
 			if (err) {
 				//handle error
@@ -74,7 +74,7 @@ io.on('connection', (socket) => {
 				console.log("Message added to db");	
 			}
 		});
-		*/
+		
 		
 		io.emit('chatter', "Private~" +  toUserName + "^" + message);
 	}else{
